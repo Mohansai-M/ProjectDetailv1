@@ -1,3 +1,4 @@
+version: 0.2
 phases:
   install:
     runtime-versions:
@@ -7,7 +8,7 @@ phases:
     - echo Logging in to Amazon ECR...
     - aws --version
     - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 047051211151.dkr.ecr.us-east-2.amazonaws.com
-    - IMAGE_NAME=  pension-detail
+    - IMAGE_NAME=pension-detail
     - IMAGE_URI=047051211151.dkr.ecr.us-east-2.amazonaws.com/pension-detail:latest
     - CONTAINER_NAME=practice-jpa
   build:
