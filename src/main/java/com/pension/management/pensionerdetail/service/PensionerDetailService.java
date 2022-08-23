@@ -21,7 +21,7 @@ public class PensionerDetailService {
 	public PensionerDetail getPensionDetails(String aadhaarNumber)
 			throws AadhaarNotFoundException, NumberFormatException, IOException {
 
-		log.info("{}", aadhaarNumber);
+		log.info("Fetching Pensinder Details with aadhaar Number"+aadhaarNumber);
 		boolean error = true;
 		PensionerDetail LocalDetails = new PensionerDetail();
 

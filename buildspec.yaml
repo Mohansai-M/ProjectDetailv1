@@ -1,26 +1,26 @@
-version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto8
+      java: corretto17
   pre_build:
     commands:
     - echo Logging in to Amazon ECR...
     - aws --version
-    - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-    - TAG="$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | head -c 8)"
-    - IMAGE_URI=${REPOSITORY_URI}:${TAG}
+    - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 047051211151.dkr.ecr.us-east-2.amazonaws.com
+    - IMAGE_NAME=  pension-detail
+    - IMAGE_URI=047051211151.dkr.ecr.us-east-2.amazonaws.com/pension-detail:latest
+    - CONTAINER_NAME=practice-jpa
   build:
     commands:
     - echo Build started on `date`
-    - echo $IMAGE_URI
+    - echo $IMAGE_NAME
     - mvn clean package -Ddockerfile.skip
-    - docker build --tag $IMAGE_URI .
+    - docker build -t $IMAGE_NAME .
   post_build:
     commands:
-    - printenv
     - echo Build completed on `date`
     - echo $(docker images)
+    - docker tag $IMAGE_NAME $IMAGE_URI
     - echo Pushing docker image
     - docker push $IMAGE_URI
     - echo push completed

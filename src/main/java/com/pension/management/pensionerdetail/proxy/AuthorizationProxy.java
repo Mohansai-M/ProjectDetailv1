@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient(name = "authentication-service" ,url="localhost:9030")
+@FeignClient(name = "authentication-service" ,url="${AUTHORIZATION_SERVICE_URI:http://localhost:9030}")
 @Service
 public interface AuthorizationProxy {
 

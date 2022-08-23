@@ -15,6 +15,7 @@ import com.pension.management.pensionerdetail.entity.PensionerFinalDetails;
 import com.pension.management.pensionerdetail.proxy.AuthorizationProxy;
 import com.pension.management.pensionerdetail.repository.PensionDetailRepository;
 import com.pension.management.pensionerdetail.service.PensionerDetailService;
+import com.pension.management.pensionerdetail.service.ProcessDetailSubmission;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,31 +28,33 @@ public class PensionerDetailController {
 	@Autowired
 	AuthorizationProxy authorizationProxy;
 
+	
 	@Autowired
-	PensionDetailRepository pensionDetailRepository;
+	ProcessDetailSubmission localsubmitService;
+	
 	PensionerDetailService pensionerDetailService = new PensionerDetailService();
+	
 
-	@GetMapping("/sample")
-	public String dockercheeck() {
-		return ("ok Success");
-	}
 
 	@GetMapping("/PensionerDetailByAadhaar/{aadhaarNumber}")
 	public PensionerDetail retrievingPensionerDetails(@RequestHeader("Authorization") String token,
 			@PathVariable String aadhaarNumber) throws IOException {
-
+		log.error("validating token in Authorization Proxy");
 		authorizationProxy.validateAndReturnUser(token);
+		log.error("calling Pensional Detail Service");
 		return pensionerDetailService.getPensionDetails(aadhaarNumber);
 	}
 
 	@PostMapping("/SavePensionDetails")
-	public boolean savePensionerDetails(//@RequestHeader("Authorization") String token,
+	public PensionerFinalDetails savePensionerDetails(@RequestHeader("Authorization") String token,
 			@RequestBody PensionerFinalDetails pensionerFinalDetails) throws Exception {
-		//authorizationProxy.validateAndReturnUser(token);
+		authorizationProxy.validateAndReturnUser(token);
 		if (pensionerFinalDetails != null) {
-			pensionDetailRepository.save(pensionerFinalDetails);
-			return true;
+			log.error("calling Pensional Detail Submission Service");
+			return localsubmitService.submitDetail(pensionerFinalDetails);
+
 		} else {
+			log.error("Empty Pensioner Details please provide them");
 			throw new Exception("Please provide valid Pensioner Deials");
 		}
 	}

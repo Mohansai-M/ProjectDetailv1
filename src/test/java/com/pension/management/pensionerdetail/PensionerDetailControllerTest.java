@@ -11,14 +11,17 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.pension.management.pensionerdetail.controller.PensionerDetailController;
 import com.pension.management.pensionerdetail.entity.BankDetails;
 import com.pension.management.pensionerdetail.entity.PensionerDetail;
+import com.pension.management.pensionerdetail.entity.PensionerFinalDetails;
 import com.pension.management.pensionerdetail.proxy.AuthorizationProxy;
 import com.pension.management.pensionerdetail.service.PensionerDetailService;
+import com.pension.management.pensionerdetail.service.ProcessDetailSubmission;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,6 +46,9 @@ public class PensionerDetailControllerTest {
 	
 	@MockBean
 	AuthorizationProxy mockProxy;
+	
+	@MockBean
+	ProcessDetailSubmission localSubmit;
 
 	@Test
 	public void retrievePensionDetails_basic() throws Exception {
@@ -79,5 +85,6 @@ public class PensionerDetailControllerTest {
 
 		mockMvc.perform(req).andExpect(status().is(404)).andExpect(content().string("")).andReturn();
 	}
+	
 
 }
