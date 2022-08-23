@@ -10,7 +10,7 @@ phases:
     - aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 047051211151.dkr.ecr.us-east-2.amazonaws.com
     - IMAGE_NAME=pension-detail
     - IMAGE_URI=047051211151.dkr.ecr.us-east-2.amazonaws.com/pension-detail:latest
-    - CONTAINER_NAME=practice-jpa
+    - CONTAINER_NAME=pension-detail
   build:
     commands:
     - echo Build started on `date`
